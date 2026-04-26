@@ -10,7 +10,7 @@ async def get_last_n_messages(
     chat_id: int,
     chat_type,
     n: int,
-    status_message: Message,
+    status_message: Optional[Message] = None,
     page_size: int = 50,
     exclude_message_id: Optional[int] = None,
 ) -> list[Message]:
@@ -83,7 +83,7 @@ async def get_all_messages(
     client: Client,
     chat_id: int,
     chat_type,
-    status_message: Message,
+    status_message: Optional[Message] = None,
     page_size: int = 50,
     exclude_message_id: Optional[int] = None,
 ) -> list[Message]:

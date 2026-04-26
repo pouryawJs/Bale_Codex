@@ -1,2 +1,14 @@
 .env
 session.bale
+
+__pycache__/
+*.pyc
+
+data/*.json
+!data/.gitkeep
+
+exports/*
+!exports/.gitkeep
+
+logs/*
+!logs/.gitkeep

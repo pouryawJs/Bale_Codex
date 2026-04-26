@@ -28,3 +28,11 @@ def parse_analyz_command(text: str) -> Optional[int]:
         return count
 
     raise ValueError("Invalid command format. Use `/analyz all` or `/analyz 30`")
+
+def parse_register_chat_command(text: str) -> str:
+    parts = text.strip().split(maxsplit=1)
+
+    if len(parts) != 2:
+        raise ValueError("Invalid command format. Use /register_chat <title>")
+
+    return parts[1].strip()
