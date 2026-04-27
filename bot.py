@@ -1,9 +1,8 @@
+import sitecustomize
 from aiobale import Client, Dispatcher
 from aiobale.types import Message
 from handlers.analyz_handler import analyz
 from handlers.register_chat_handler import register_chat_handler
-from services.chat_lookup import find_chat_by_title
-from services.chat_messages import read_messages_by_title
 
 dp = Dispatcher()
 client = Client(dp)
