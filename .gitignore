@@ -2,11 +2,13 @@
 session.bale
 
 __pycache__/
+__pycache__
 *.pyc
 
 data/*.json
 !data/.gitkeep
 
+exports
 exports/*
 !exports/.gitkeep
 

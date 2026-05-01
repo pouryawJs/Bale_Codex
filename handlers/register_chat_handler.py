@@ -10,9 +10,9 @@ async def register_chat_handler(msg: Message, client: Client, text: str):
     try:
         title = parse_register_chat_command(text)
     except ValueError as e:
-        await safe_edit_status(msg, f"Error: {e}")
+        await safe_edit_status(msg, f"{e}")
         return
-
+    
     chat = register_chat(
         title=title,
         chat_id=msg.chat.id,
@@ -22,9 +22,8 @@ async def register_chat_handler(msg: Message, client: Client, text: str):
     await safe_edit_status(
         msg,
         (
-            "Chat registered successfully.\n"
-            f"Title: {chat['title']}\n"
-            f"Chat ID: {chat['chat_id']}\n"
-            f"Chat type: {chat['chat_type']}"
+            "Chat registered successfully ✅\n"
+            f"Title saved as: *{chat['title']} *\n"
+            f"Chat ID: *{chat['chat_id']}*\n"
         )
     )
