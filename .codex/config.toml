@@ -1,3 +1,0 @@
-[mcp_servers.bale_codex]
-command = "python"
-args = ["scripts/run_mcp.py"]

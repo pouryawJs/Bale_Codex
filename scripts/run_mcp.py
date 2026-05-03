@@ -27,15 +27,15 @@ def find_python_executable() -> str:
 
 def main():
     LOG_FILE.parent.mkdir(exist_ok=True)
-    python_executable = find_python_executable()
 
+    python_executable = find_python_executable()
     os.chdir(PROJECT_ROOT)
 
-    with open(LOG_FILE, "a", encoding="utf-8") as log:
-        log.write("\n--- Starting MCP server ---\n")
-        log.write(f"Project root: {PROJECT_ROOT}\n")
-        log.write(f"Python executable: {python_executable}\n")
-        log.flush()
+    with open(LOG_FILE, "a", encoding="utf-8") as log_file:
+        log_file.write("\n--- MCP launcher started ---\n")
+        log_file.write(f"Project root: {PROJECT_ROOT}\n")
+        log_file.write(f"Python executable: {python_executable}\n")
+        log_file.flush()
 
         subprocess.run(
             [
@@ -43,9 +43,10 @@ def main():
                 "-m",
                 "interfaces.mcp_server",
             ],
-            stdout=sys.stdout,   # برای پروتکل MCP باید دست‌نخورده بماند
-            stderr=log,          # خطاها داخل فایل ذخیره می‌شوند
             cwd=PROJECT_ROOT,
+            stdin=sys.stdin,
+            stdout=sys.stdout,
+            stderr=log_file,
             check=False,
         )
 

@@ -7,6 +7,7 @@ from mcp.server.fastmcp import FastMCP
 from aiobale import Client
 from aiobale.client.session.aiohttp import AiohttpSession
 from aiobale.logger import logger as aiobale_logger
+from aiobale.types.message_content import DocumentMessage
 from aiobale.utils.protobuf import ProtoBuf
 
 from services.chat_registery import load_registered_chats
@@ -99,6 +100,11 @@ def configure_aiobale_for_mcp() -> None:
 
         ProtoBuf._mcp_safe_fix_fields = ProtoBuf._fix_fields
         ProtoBuf._fix_fields = _fix_fields_without_stdout
+
+    if not hasattr(DocumentMessage, "_mcp_safe_default_mime_type"):
+        DocumentMessage._mcp_safe_default_mime_type = True
+        DocumentMessage.model_fields["mime_type"].default = "application/octet-stream"
+        DocumentMessage.model_rebuild(force=True)
 
 
 async def get_client() -> Client:
@@ -246,7 +252,7 @@ async def bale_read_messages(
             "requested_limit": limit,
             "message_count": len(messages),
             "messages": [
-                message_to_dict(message)
+                await message_to_dict(message, client=client)
                 for message in messages
             ],
         }
