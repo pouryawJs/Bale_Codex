@@ -1,2 +1,5 @@
 mcp>=1.2.0
 aiobale
+pypdf
+python-docx
+openpyxl

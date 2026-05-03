@@ -1,5 +1,6 @@
 import logging
 import sys
+from pathlib import Path
 from typing import Any
 
 import aiohttp
@@ -17,7 +18,8 @@ from services.chat_lookup import (
     find_chat_by_title,
 )
 from services.chat_messages import read_messages_by_title
-from utils.messages_utils import message_to_dict
+from utils.messages_utils import message_to_rich_dict
+from utils.path_utils import safe_filename
 
 
 mcp = FastMCP("bale-codex")
@@ -246,15 +248,27 @@ async def bale_read_messages(
             limit=limit,
         )
 
+        download_dir = Path("downloads") / safe_filename(chat_title)
+        rich_messages = []
+        for message in messages:
+            rich_messages.append(
+                await message_to_rich_dict(
+                    client=client,
+                    msg=message,
+                    download_dir=download_dir,
+                )
+            )
+
         return {
             "ok": True,
             "chat_title": chat_title,
             "requested_limit": limit,
             "message_count": len(messages),
-            "messages": [
-                await message_to_dict(message, client=client)
-                for message in messages
-            ],
+            "messages": rich_messages,
+            "instruction": (
+                "When summarizing or analyzing these messages, use both each "
+                "message.text value and document.extracted_text when present."
+            ),
         }
 
     except Exception as error:
