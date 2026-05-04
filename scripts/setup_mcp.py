@@ -44,7 +44,7 @@ def main():
     print()
     print("[mcp_servers.bale_codex]")
     print(f'command = "{str(python_executable).replace("\\\\", "\\\\\\\\")}"')
-    print(f'args = ["{str(run_mcp_path).replace("\\\\", "\\\\\\\\")}", "-m", "scripts/run_mcp.py"]')
+    print(f'args = ["{str(run_mcp_path).replace("\\\\", "\\\\\\\\")}"]')
     print(f'cwd = "{str(PROJECT_ROOT).replace("\\\\", "\\\\\\\\")}"')
     print("tool_timeout_sec = 120")
 

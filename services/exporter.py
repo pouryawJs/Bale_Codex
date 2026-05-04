@@ -1,4 +1,4 @@
-from utils.messages_utils import message_to_dict
+from serializers.message_serializer import message_to_dict
 from datetime import datetime
 from aiobale.types import Message
 from pathlib import Path

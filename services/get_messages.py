@@ -1,6 +1,5 @@
 import asyncio
 from typing import Optional
-from utils.safe_edit import safe_edit_status
 from aiobale import Client
 from aiobale.types import Message
 from aiobale.enums import ListLoadMode
@@ -58,17 +57,6 @@ async def get_last_n_messages(
 
         offset_date = new_offset
 
-        await safe_edit_status(
-            status_message,
-            (
-                "Analyzing chat...\n"
-                f"Mode: last {n} messages\n"
-                f"Loaded messages: {min(len(all_messages), n)} / {n}\n"
-                f"Loaded pages: {page_number}\n"
-                f"Page size: {page_size}"
-            )
-        )
-
         await asyncio.sleep(0.5)
 
     unique = {}
@@ -89,7 +77,6 @@ async def get_all_messages(
 ) -> list[Message]:
     """
     Load all chat messages page by page.
-    Used for /analyz all without a count.
     """
 
     all_messages = []
@@ -128,16 +115,6 @@ async def get_all_messages(
             break
 
         offset_date = new_offset
-
-        await safe_edit_status(
-            status_message,
-            (
-                "Analyzing chat...\n"
-                f"Loaded messages: {len(all_messages)}\n"
-                f"Loaded pages: {page_number}\n"
-                f"Page size: {page_size}"
-            )
-        )
 
         await asyncio.sleep(0.5)
 

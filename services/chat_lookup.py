@@ -1,4 +1,4 @@
-from services.chat_registery import load_registered_chats
+from services.chat_registry import load_registered_chats
 
 
 class ChatNotFoundError(Exception):
