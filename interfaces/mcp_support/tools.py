@@ -52,11 +52,12 @@ async def read_registered_chat_messages(
 
         client = await get_client()
 
-        messages = await read_messages_by_title(
+        history = await read_messages_by_title(
             client=client,
             chat_title=chat_title,
             limit=limit,
         )
+        messages = history.messages
 
         download_dir = Path("downloads") / safe_filename(chat_title)
         rich_messages = []
@@ -71,13 +72,18 @@ async def read_registered_chat_messages(
 
         return {
             "ok": True,
+            "partial": history.partial,
             "chat_title": chat_title,
             "requested_limit": limit,
             "message_count": len(messages),
             "messages": rich_messages,
+            "warnings": history.warnings,
+            "failed_page_error": history.failed_page_error,
             "instruction": (
                 "When summarizing or analyzing these messages, use both each "
-                "message.text value and document.extracted_text when present."
+                "message.text value and document.extracted_text when present. "
+                "Use content_source, is_forwarded, and content_note to identify "
+                "direct and forwarded content."
             ),
         }
     except Exception as error:

@@ -43,6 +43,13 @@ def extraction_result(
     }
 
 
+def unsupported_extraction_result() -> dict:
+    return extraction_result(
+        parser="unsupported",
+        extraction_error="Unsupported file type for text extraction.",
+    )
+
+
 def extract_text_from_plain_file(path: Path, max_chars: int) -> dict:
     try:
         text, _encoding = decode_text_file(path)
@@ -247,10 +254,7 @@ def extract_text_from_file(
     suffix = path.suffix.lower()
 
     if suffix in UNSUPPORTED_BINARY_EXTENSIONS:
-        return extraction_result(
-            parser="unsupported",
-            extraction_error="Unsupported file type for text extraction.",
-        )
+        return unsupported_extraction_result()
 
     if suffix in TEXT_EXTENSIONS or (mime_type or "").startswith("text/"):
         return extract_text_from_plain_file(path, max_chars)
@@ -272,7 +276,4 @@ def extract_text_from_file(
     ):
         return extract_text_from_xlsx(path, max_chars)
 
-    return extraction_result(
-        parser="unsupported",
-        extraction_error="Unsupported file type for text extraction.",
-    )
+    return unsupported_extraction_result()

@@ -2,7 +2,7 @@ from aiobale import Client
 from aiobale.types import Message
 
 from services.chat_lookup import find_chat_by_title
-from services.get_messages import get_last_n_messages
+from services.get_messages import HistoryLoadResult, get_last_n_messages
 
 
 async def read_messages_by_title(
@@ -10,7 +10,7 @@ async def read_messages_by_title(
     chat_title: str,
     limit: int,
     status_message: Message | None = None,
-) -> list[Message]:
+) -> HistoryLoadResult:
     chat = find_chat_by_title(chat_title)
 
     return await get_last_n_messages(
